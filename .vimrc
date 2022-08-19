@@ -12,18 +12,62 @@ set expandtab
 set smarttab
 set cindent
 set ignorecase
+set mouse
 inoremap ( ()<ESC>i
 inoremap {<CR> {<CR>}<ESC>O<tab>
 inoremap [ []<ESC>i
 inoremap kj <ESC>
-inoremap K 5k
-inoremap J 5j
-inoremap H 5h
-inoremap L 5l
+" plug
+
 call plug#begin()
-Plug 'ycm-core/YouCompleteMe'
 Plug 'vim-airline/vim-airline'
 Plug 'connorholyday/vim-snazzy'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
+Plug 'iamcco/markdown-preview.vim'
 call plug#end()
+
 color snazzy
+
+" ===
+" === Snazzy
+" ===
+
 let g:SnazzyTransparent = 1
+
+" ===
+" === UltiSnips
+" ===
+
+let g:UltiSnipsExpandTrigger="<c-n>"
+let g:UltiSnipsJumpForwardTrigger="<c-k>"
+let g:UltiSnipsJumpBackwardTrigger="<c-j>"
+let g:UltiSnipsSnippetDirectories = [$HOME.'/.config/vim/Ultisnips/']
+" ===
+" === markdown-preview
+" ===
+let g:mkdp_browser = 'Firefox'
+" ===
+" === coc.nvim
+" ===
+ set updatetime=50
+
+ let g:coc_global_extensions = ['coc-clangd', 'coc-jedi']
+ inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1):
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-m> coc#refresh()
