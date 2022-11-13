@@ -12,7 +12,12 @@ set expandtab
 set smarttab
 set cindent
 set ignorecase
-set mouse
+let &t_8f= "\<Esc>[38;2;%lu;%lu;%lum"       " set foreground color
+let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"        " set background color
+"colorscheme Tomorrow-Night-Eighties
+set t_Co=256                         " Enable 256 colors
+set termguicolors                    " Enable GUI colors for the terminal to get truecolor]]]]
+"set mouse
 inoremap ( ()<ESC>i
 inoremap {<CR> {<CR>}<ESC>O<tab>
 inoremap [ []<ESC>i
@@ -25,7 +30,7 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'tpope/vim-surround'
 Plug 'gcmt/wildfire.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'iamcco/markdown-preview.vim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 call plug#end()
@@ -48,13 +53,13 @@ let g:UltiSnipsSnippetDirectories = [$HOME.'/.config/vim/Ultisnips/']
 " ===
 " === markdown-preview
 " ===
-let g:mkdp_browser = 'Firefox'
+let g:mkdp_browser = 'firefox'
 " ===
 " === coc.nvim
 " ===
  set updatetime=50
 set shortmess+=c
- let g:coc_global_extensions = ['coc-clangd', 'coc-jedi']
+ let g:coc_global_extensions = ['coc-clangd']
  inoremap <silent><expr> <TAB>
       \ coc#pum#visible() ? coc#pum#next(1):
       \ CheckBackspace() ? "\<Tab>" :
@@ -83,3 +88,4 @@ nmap <silent> <LEADER>k <Plug>(coc-diagnostic-next)
 
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
+
