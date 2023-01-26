@@ -82,17 +82,27 @@ map r :call CompileRunGcc()<CR>
 func! CompileRunGcc()
   exec "w"
   if &filetype == 'cpp'
-    exec "!g++ % -o %<"
-    exec "!time ./%<"
+        set splitbelow
+        exec "!g++ -std=c++11 % -Wall -o %<"
+        :sp
+        :res -15
+        :term ./%<
   elseif &filetype == 'html'
     exec "!firefox % &"
   elseif &filetype == 'markdown'
     exec "MarkdownPreview"
+  elseif &filetype == 'go'
+    set splitbelow
+    :term go run
+  elseif &filetype == 'tex'
+    silent! exec "VimtexStop"
+    silent! exec "VimtexCompile"
   endif
 endfunc
 " plug
 call plug#begin()
 Plug 'vim-airline/vim-airline'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'connorholyday/vim-snazzy'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
